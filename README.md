@@ -5,75 +5,82 @@
 <h1 align="center">ThumbYT</h1>
 
 <p align="center">
-  Thumbnails para o YouTube em segundos: arraste uma imagem, digite a palavra, salve. Uma palavra grande, amarela e com ponto final no topo, sempre no mesmo estilo.
+  YouTube thumbnails in seconds: drop an image, type the word, save. One big yellow word with a period at the top, always in the same style.
 </p>
 
+<p align="center"><b>English</b> · <a href="README.pt-BR.md">Português</a></p>
+
 <p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3-3776ab?logo=python&logoColor=white" />
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.9+-3776ab?logo=python&logoColor=white" />
   <img alt="PySide6" src="https://img.shields.io/badge/PySide6-Qt%206-41cd52?logo=qt&logoColor=white" />
   <img alt="Pillow" src="https://img.shields.io/badge/Pillow-render-f0b20a" />
-  <img alt="Offline" src="https://img.shields.io/badge/internet-não%20precisa-34d399" />
+  <img alt="Offline" src="https://img.shields.io/badge/internet-not%20needed-34d399" />
 </p>
 
 <p align="center">
-  <img src=".github/assets/app.png" alt="ThumbYT no tema escuro: prévia de um pôr do sol com a palavra THUMB. em amarelo no topo e a barra de controles embaixo" />
+  <img src=".github/assets/app.png" alt="ThumbYT in dark theme: preview of a sunset with the word THUMB. in yellow at the top and the control bar below" />
 </p>
 
 > [!NOTE]
-> **Tudo local.** A imagem nunca sai do seu computador: nada de conta, upload ou requisição de rede.
+> **Fully local.** Your image never leaves your computer: no account, no upload, no network requests.
 
-## Funcionalidades
+## Features
 
-- **Arrastar e soltar** uma imagem na janela, ou clicar na prévia para abrir (`Ctrl+O`).
-- **Prévia ao vivo** enquanto você digita, já no resultado final.
-- **Alinhamento** à esquerda, ao centro ou à direita.
-- **Tamanho do texto** de 30% a 200% com **A−** e **A+** (`Ctrl+-` e `Ctrl+=`). Em 100% a palavra fica no maior tamanho que cabe sozinha.
-- **Salvar** em PNG ou JPEG, 1920×1080 (`Ctrl+S`). O nome sugerido é `imagem_thumb.png`, na pasta da imagem original.
-- **Linha de comando** para gerar sem abrir a janela, útil em scripts.
+- **Drag and drop** an image onto the window, or click the preview to open one (`Ctrl+O`). PNG, JPEG, WebP and BMP, any aspect ratio: the image is center-cropped to 16:9.
+- **Live preview** while you type, showing the final result.
+- **Alignment**: left, center or right.
+- **Text size** from 30% to 200% with **A−** and **A+** (`Ctrl+-` and `Ctrl+=`). At 100% the word is as large as it can be while still fitting.
+- **Save** as PNG or JPEG, 1920×1080 (`Ctrl+S`). The suggested name is the original name plus `_thumb.png` (`sunset.jpg` → `sunset_thumb.png`), in the same folder.
+- **Command line** to generate without opening the window, handy for scripts.
 
-## Começando
+## Getting started
+
+Requires Python 3.9 or newer.
 
 ```sh
 pip install PySide6 pillow
 python app.py
 ```
 
-Pela linha de comando:
+From the command line:
 
 ```sh
-python thumb.py imagem.png "PALAVRA." saida.png [esquerda|centro|direita]
+python thumb.py image.png "WORD." output.png [esquerda|centro|direita]
 ```
 
-### Fonte
+The alignment argument is in Portuguese: `esquerda` (left, default), `centro` (center), `direita` (right).
 
-O visual foi pensado para a **Inter Display Black**. Baixe em [rsms.me/inter](https://rsms.me/inter/) e coloque `InterDisplay-Black.otf` na pasta do projeto. Sem ela, o app usa a **Impact** do Windows.
+### Font
 
-## Como funciona
+The look is designed for **Inter Display Black**. Download it from [rsms.me/inter](https://rsms.me/inter/) and put `InterDisplay-Black.otf` in the project folder. Without it, the app falls back to Windows' **Impact**.
 
-```
-imagem  →  recorte 16:9 + 1920×1080  →  +15% cor, +8% contraste  →  degradê escuro no topo
-        →  palavra amarela com sombra difusa  →  PNG / JPEG
-```
-
-- **Tamanho automático**: a fonte começa em 400 px e diminui até a palavra caber na largura (margem de 40 px) e em 30% da altura. A escala do usuário é aplicada depois disso.
-- **Prévia rápida**: a imagem de fundo é preparada uma vez e guardada; a cada tecla só o texto é desenhado de novo, 120 ms depois que você para de digitar.
-- **Ícone**: desenhado pelo próprio código ao abrir, sem arquivo de imagem.
-
-### Estrutura
+## How it works
 
 ```
-app.py          janela (PySide6): prévia, controles, atalhos e ícone
-thumb.py        renderização (Pillow) e linha de comando
-test_thumb.py   teste rápido: python test_thumb.py
+image  →  16:9 crop + 1920×1080  →  +15% color, +8% contrast  →  dark gradient at the top
+       →  yellow word with soft shadow  →  PNG / JPEG
 ```
 
-## Limitações conhecidas
+- **Automatic size**: the font starts at 400 px and shrinks until the word fits the width (40 px margin) and 30% of the height. Your scale is applied after that.
+- **Fast preview**: the background is prepared once and cached; on each keystroke only the text is redrawn, 120 ms after you stop typing.
+- **Icon**: drawn by the code itself at startup, no image file needed.
 
-- **Acima de 100% o texto pode passar da borda.** É de propósito, e a prévia mostra antes de salvar.
-- O texto fica sempre **no topo**. A posição vertical não é ajustável.
-- Cor, fonte e sombra são fixas no código (`thumb.py`).
+### Layout
 
-## Créditos
+```
+app.py          window (PySide6): preview, controls, shortcuts and icon
+thumb.py        rendering (Pillow) and command line
+test_thumb.py   quick test: python test_thumb.py
+```
 
-- Fonte: [Inter](https://rsms.me/inter/) por Rasmus Andersson (SIL Open Font License).
-- Interface: [Qt for Python (PySide6)](https://doc.qt.io/qtforpython-6/). Imagem: [Pillow](https://python-pillow.org).
+## Known limitations
+
+- **Above 100% the text can go past the edge.** That is on purpose, and the preview shows it before you save.
+- The text is always **at the top**. The vertical position is not adjustable.
+- Color, font and shadow are fixed in the code (`thumb.py`).
+- The interface is in Portuguese.
+
+## Credits
+
+- Font: [Inter](https://rsms.me/inter/) by Rasmus Andersson (SIL Open Font License).
+- UI: [Qt for Python (PySide6)](https://doc.qt.io/qtforpython-6/). Imaging: [Pillow](https://python-pillow.org).
